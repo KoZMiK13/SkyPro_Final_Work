@@ -114,14 +114,13 @@ class DeliveryAPI:
 
         return requests.post(self.url, headers=headers, json=body)
 
-    @allure.step("POST запрос без обязательного поля 'place_slug' {place_slug} в теле запроса")
-    def search_medicine_fullname_without_place_slug(self, medicine: str, place_slug=None):
+    @allure.step("POST запрос без обязательного поля 'place_slug' в теле запроса")
+    def search_medicine_fullname_without_place_slug(self, medicine: str):
         """
         Поиск лекарства в поисковой строке без обязательного поля 'place_slug' в теле запроса
         """
         body = {
             "region_id": 1,
-            "place_slug": place_slug,
             "text": medicine,
             "location": {
                 "lat": 55.43923682107633,
@@ -137,8 +136,8 @@ class DeliveryAPI:
             self.url, headers=headers, json=body
             )
 
-    @allure.step('POST запрос без указания значения поля "latitude" {lat} в теле запроса')
-    def search_product_fullname_without_latitude(self, prod_name: str, lat=None):
+    @allure.step('POST запрос без указания значения поля "latitude" в теле запроса')
+    def search_product_fullname_without_latitude(self, prod_name: str):
         """
         Поиск продукта в поисковой строке без указания значения поля "latitude" в теле запроса
         """
@@ -147,7 +146,7 @@ class DeliveryAPI:
             "filters": [],
             "location": {
                 "longitude": 37.75256219779564,
-                "latitude": lat
+                "latitude": None
                 }
             }
 
@@ -158,13 +157,12 @@ class DeliveryAPI:
         return requests.post(self.url, headers=headers, json=body)
 
     @allure.step('POST запрос без указания значения поля "longitude" в теле запроса')
-    def search_product_fullname_without_longitude(self, prod_name: str, long=None):
+    def search_product_fullname_without_longitude(self, prod_name: str):
         """Поиск продукта в поисковой строке без указания значения поля "longitude" в теле запроса"""
         body = {
             "text": prod_name,
             "filters": [],
             "location": {
-                "longitude": long,
                 "latitude": 55.43923682107633
                 }
             }
@@ -175,7 +173,7 @@ class DeliveryAPI:
 
         return requests.post(self.url, headers=headers, json=body)
 
-    @allure.step('POST запрс без обязательного поля "location" в теле запроса')
+    @allure.step('POST запрос без обязательного поля "location" в теле запроса')
     def search_product_fullname_without_location(self, prod_name: str):
         """Поиск продукта  в поисковой строке без обязательного поля "location" в теле запроса"""
         body = {

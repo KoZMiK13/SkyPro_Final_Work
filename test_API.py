@@ -1,4 +1,5 @@
 import allure
+import pytest
 from API.DeliveryAPI import DeliveryAPI
 
 base_url = "https://market-delivery.yandex.ru/"
@@ -82,6 +83,7 @@ def test_search_product_fullname_pozitive():
 def test_medicine_fullname_search_negative():
     medicine_fullname = med_deliveryapi.search_medicine_fullname_without_place_slug("ацикловир")
     assert medicine_fullname.status_code == 400
+    assert medicine_fullname.json()["message"] == "Error at path 'place_slug': Field is missing"
 
 
 @allure.epic("Сайт Деливери")
@@ -93,6 +95,7 @@ def test_medicine_fullname_search_negative():
 def test_search_product_fullname_negative_lat():
     product_fullname = fullsearch_deliveryapi.search_product_fullname_without_latitude("краб")
     assert product_fullname.status_code == 400
+    assert product_fullname.json()["message"] == "Parse error at pos 113, path 'location.latitude': number was expected, but null found, the latest token was : null"
 
 
 @allure.epic("Сайт Деливери")
@@ -105,6 +108,7 @@ def test_search_product_fullname_negative_lat():
 def test_search_product_fullname_negative_long():
     product_fullname = fullsearch_deliveryapi.search_product_fullname_without_longitude("краб")
     assert product_fullname.status_code == 400
+    assert product_fullname.json()["message"] == "Parse error at pos 94, path 'location': missing required field 'longitude'"
 
 
 @allure.epic("Сайт Деливери")
@@ -116,6 +120,7 @@ def test_search_product_fullname_negative_long():
 def test_search_product_fullname_negative_location():
     product_fullname = fullsearch_deliveryapi.search_product_fullname_without_location("краб")
     assert product_fullname.status_code == 400
+    assert "Cannot use catalog search without location, 'location' or 'region_id' field must be provided" == product_fullname.json()["message"]
 
 
 @allure.epic("Сайт Деливери")
@@ -124,6 +129,7 @@ def test_search_product_fullname_negative_location():
 @allure.suite("Негативные проверки")
 @allure.severity("Hight")
 @allure.title("Поиск продукта в поисковой строке с несуществующими значениями системы координат в теле запроса")
+@pytest.mark.xfail(reason="Баг API: Ошибка 500 вместо 400 при указании несуществующих координат.")
 def test_search_product_fullname_wrong_coordinates():
     product_fullname = fullsearch_deliveryapi.search_product_fullname_wrong_coordinates("краб")
     assert product_fullname.status_code == 400
