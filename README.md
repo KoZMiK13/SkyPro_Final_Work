@@ -1,7 +1,7 @@
 # SkyPro_Final_Work
 Дипломная работа. Архитектура фреймворка
 
-# ПРоект автоматизации тестирования сайта [Delivery](https://market-delivery.yandex.ru/)
+# Проект автоматизации тестирования сайта [Delivery](https://market-delivery.yandex.ru/)
 
 ## Задача 
 Автоматизация UI и API тестов для сайта [Delivery](https://market-delivery.yandex.ru/)
